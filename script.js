@@ -1,93 +1,44 @@
-// send prompt to AI
-async function sendPrompt() {
+const input = document.getElementById("prompt");
+const button = document.getElementById("generate");
+const output = document.getElementById("output");
 
-const promptBox = document.getElementById("prompt");
-const messages = document.getElementById("messages");
-const emptyState = document.getElementById("emptyState");
+let chatHistory = [];
 
-const prompt = promptBox.value.trim();
+button.onclick = async () => {
 
-if (!prompt) return;
+  const prompt = input.value;
 
-// remove empty screen
-if (emptyState) emptyState.remove();
+  if (!prompt) return;
 
-// show user message
-addMessage(prompt, "user");
+  // show user message
+  output.innerHTML += `<div class="user">You: ${prompt}</div>`;
 
-promptBox.value = "";
+  chatHistory.push({
+    role: "user",
+    content: prompt
+  });
 
-// temporary AI thinking message
-addMessage("Thinking...", "assistant");
+  const res = await fetch("/api/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      messages: chatHistory
+    })
+  });
 
-try {
+  const data = await res.json();
 
-const response = await fetch("/api/generate", {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({ prompt })
-});
+  const reply = data.result;
 
-const data = await response.json();
+  // show AI reply
+  output.innerHTML += `<div class="ai">AI: ${reply}</div>`;
 
-// remove thinking message
-messages.lastChild.remove();
+  chatHistory.push({
+    role: "assistant",
+    content: reply
+  });
 
-// show AI response
-addMessage(data.result || "No response from AI.", "assistant");
-
-} catch (error) {
-
-messages.lastChild.remove();
-addMessage("⚠️ Error contacting AI server.", "assistant");
-console.error(error);
-
-}
-
-}
-
-
-// add message to chat
-function addMessage(text, role) {
-
-const messages = document.getElementById("messages");
-
-const message = document.createElement("div");
-message.className = `message ${role}`;
-
-message.innerHTML = `
-<div class="avatar ${role === "user" ? "user-avatar" : "ace-avatar"}">
-${role === "user" ? "U" : "AI"}
-</div>
-
-<div class="message-body">
-<div class="message-role">${role}</div>
-<div class="message-content">${text}</div>
-</div>
-`;
-
-messages.appendChild(message);
-
-// auto scroll
-messages.scrollTop = messages.scrollHeight;
-
-}
-
-
-// optional: send message with Enter key
-document.addEventListener("keydown", function(e) {
-
-if (e.key === "Enter" && !e.shiftKey) {
-
-const promptBox = document.getElementById("prompt");
-
-if (document.activeElement === promptBox) {
-e.preventDefault();
-sendPrompt();
-}
-
-}
-
-});
+  input.value = "";
+};
