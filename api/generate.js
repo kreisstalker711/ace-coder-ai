@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export default async function handler(req, res) {
@@ -10,14 +10,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { prompt } = req.body;
-
   try {
+
+    const { prompt } = req.body;
+
     const chat = await groq.chat.completions.create({
       messages: [
         {
           role: "system",
-          content: "You are an expert coding assistant. Generate clean working code and explain briefly."
+          content: "You are an expert coding assistant."
         },
         {
           role: "user",
@@ -31,7 +32,14 @@ export default async function handler(req, res) {
       result: chat.choices[0].message.content
     });
 
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "AI request failed"
+    });
+
   }
+
 }
