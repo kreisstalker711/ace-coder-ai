@@ -1,391 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AceCoder AI — Your Intelligent Coding Companion</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <!-- Highlight.js for syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<meta charset="UTF-8">
+<title>AceCoder AI</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <div class="logo-icon">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#hexGrad)" stroke-width="1.5"/>
-            <text x="14" y="18.5" text-anchor="middle" font-family="Syne" font-size="11" font-weight="800" fill="url(#textGrad)">Ac</text>
-            <defs>
-              <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-              <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-name">AceCoder <span class="logo-ai">AI</span></span>
-      </div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
 
-      <nav class="nav-pills">
-        <button class="nav-pill active" data-tab="chat">Chat</button>
-        <button class="nav-pill" data-tab="history">History</button>
-      </nav>
-
-      <div class="header-actions">
-        <div class="model-badge">
-          <span class="model-dot"></span>
-          <span>claude-sonnet</span>
-        </div>
-        <button class="btn-ghost" id="clearBtn" title="Clear conversation">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-          </svg>
-        </button>
-      </div>
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-name">AceCoder <span class="logo-ai">AI</span></div>
     </div>
-  </header>
 
-  <!-- Main Layout -->
-  <main class="main">
+    <div class="model-badge">
+      <div class="model-dot"></div>
+      Groq Model
+    </div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-section">
-        <p class="sidebar-label">Suggested Prompts</p>
-        <div class="suggestion-list">
-          <button class="suggestion-item" data-prompt="Write a TypeScript function to debounce API calls with cancellation support">
-            <span class="suggestion-icon">⚡</span>
-            <span>Debounce API calls in TypeScript</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Create a Python FastAPI endpoint with JWT authentication and rate limiting">
-            <span class="suggestion-icon">🔐</span>
-            <span>FastAPI JWT auth endpoint</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Build a React custom hook for infinite scroll with IntersectionObserver">
-            <span class="suggestion-icon">♾️</span>
-            <span>React infinite scroll hook</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Write a SQL query to find the top 10 customers by revenue with month-over-month growth">
-            <span class="suggestion-icon">📊</span>
-            <span>SQL revenue analytics query</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Implement a binary search tree with insert, delete, and traversal methods in JavaScript">
-            <span class="suggestion-icon">🌲</span>
-            <span>Binary search tree in JS</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Create a Docker Compose setup for a Node.js app with PostgreSQL and Redis">
-            <span class="suggestion-icon">🐳</span>
-            <span>Docker Compose for Node + Postgres</span>
-          </button>
-        </div>
-      </div>
+  </div>
+</header>
 
-      <div class="sidebar-section">
-        <p class="sidebar-label">Languages</p>
-        <div class="lang-tags">
-          <span class="lang-tag">Python</span>
-          <span class="lang-tag">TypeScript</span>
-          <span class="lang-tag">Rust</span>
-          <span class="lang-tag">Go</span>
-          <span class="lang-tag">SQL</span>
-          <span class="lang-tag">Bash</span>
-          <span class="lang-tag">C++</span>
-          <span class="lang-tag">Java</span>
-        </div>
-      </div>
-    </aside>
 
-    <!-- Chat Area -->
-    <section class="chat-area" id="chatArea">
+<!-- MAIN -->
+<main class="main">
 
-      <!-- Empty State -->
+  <!-- CHAT AREA -->
+  <div class="chat-area">
+
+    <div class="messages" id="messages">
+
+      <!-- empty state -->
       <div class="empty-state" id="emptyState">
-        <div class="empty-glow"></div>
-        <div class="empty-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <polygon points="24,3 45,13.5 45,34.5 24,45 3,34.5 3,13.5" fill="none" stroke="url(#bigHex)" stroke-width="1.5"/>
-            <text x="24" y="30" text-anchor="middle" font-family="Syne" font-size="18" font-weight="800" fill="url(#bigText)">Ac</text>
-            <defs>
-              <linearGradient id="bigHex" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-              <linearGradient id="bigText" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-            </defs>
-          </svg>
+
+        <div class="empty-icon">⚡</div>
+
+        <div class="empty-title">
+          AceCoder AI
         </div>
-        <h2 class="empty-title">What are we building today?</h2>
-        <p class="empty-sub">Ask AceCoder anything — algorithms, architecture, debugging, or code review.</p>
-        <div class="empty-chips">
-          <span class="chip">Debug my code</span>
-          <span class="chip">Explain this function</span>
-          <span class="chip">Write unit tests</span>
-          <span class="chip">Refactor for performance</span>
+
+        <div class="empty-sub">
+          Ask me to generate code, debug, or explain programming.
         </div>
+
       </div>
 
-      <!-- Messages Container -->
-      <div class="messages" id="messages"></div>
-
-      <!-- Loading Indicator -->
-      <div class="loading-wrapper" id="loadingWrapper" style="display:none">
-        <div class="loading-bubble">
-          <div class="avatar ace-avatar">
-            <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
-              <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#lHex)" stroke-width="1.5"/>
-              <text x="14" y="18.5" text-anchor="middle" font-family="Syne" font-size="11" font-weight="800" fill="url(#lText)">Ac</text>
-              <defs>
-                <linearGradient id="lHex" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#38BDF8"/>
-                  <stop offset="100%" stop-color="#818CF8"/>
-                </linearGradient>
-                <linearGradient id="lText" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#38BDF8"/>
-                  <stop offset="100%" stop-color="#818CF8"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="typing-dots">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Input Bar -->
-  <footer class="input-bar">
-    <div class="input-inner">
-      <div class="input-box" id="inputBox">
-        <textarea
-          id="promptInput"
-          class="prompt-textarea"
-          placeholder="Ask Ace to write, debug, or explain code..."
-          rows="1"
-          maxlength="8000"
-        ></textarea>
-        <div class="input-actions">
-          <span class="char-count" id="charCount">0 / 8000</span>
-          <button class="send-btn" id="sendBtn" disabled>
-            <svg class="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <p class="input-disclaimer">AceCoder AI may produce incorrect code. Always review before deploying to production.</p>
     </div>
-  </footer>
 
-  <script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AceCoder AI — Your Intelligent Coding Companion</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <!-- Highlight.js for syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-</head>
-<body>
+  </div>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <div class="logo-icon">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#hexGrad)" stroke-width="1.5"/>
-            <text x="14" y="18.5" text-anchor="middle" font-family="Syne" font-size="11" font-weight="800" fill="url(#textGrad)">Ac</text>
-            <defs>
-              <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-              <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-name">AceCoder <span class="logo-ai">AI</span></span>
+</main>
+
+
+<!-- INPUT BAR -->
+<div class="input-bar">
+
+  <div class="input-inner">
+
+    <div class="input-box">
+
+      <textarea
+        id="prompt"
+        class="prompt-textarea"
+        placeholder="Ask AceCoder AI to generate code..."
+      ></textarea>
+
+      <div class="input-actions">
+
+        <div class="char-count" id="charCount">0</div>
+
+        <button class="send-btn" onclick="sendPrompt()">➤</button>
+
       </div>
 
-      <nav class="nav-pills">
-        <button class="nav-pill active" data-tab="chat">Chat</button>
-        <button class="nav-pill" data-tab="history">History</button>
-      </nav>
-
-      <div class="header-actions">
-        <div class="model-badge">
-          <span class="model-dot"></span>
-          <span>claude-sonnet</span>
-        </div>
-        <button class="btn-ghost" id="clearBtn" title="Clear conversation">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-          </svg>
-        </button>
-      </div>
     </div>
-  </header>
 
-  <!-- Main Layout -->
-  <main class="main">
-
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-section">
-        <p class="sidebar-label">Suggested Prompts</p>
-        <div class="suggestion-list">
-          <button class="suggestion-item" data-prompt="Write a TypeScript function to debounce API calls with cancellation support">
-            <span class="suggestion-icon">⚡</span>
-            <span>Debounce API calls in TypeScript</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Create a Python FastAPI endpoint with JWT authentication and rate limiting">
-            <span class="suggestion-icon">🔐</span>
-            <span>FastAPI JWT auth endpoint</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Build a React custom hook for infinite scroll with IntersectionObserver">
-            <span class="suggestion-icon">♾️</span>
-            <span>React infinite scroll hook</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Write a SQL query to find the top 10 customers by revenue with month-over-month growth">
-            <span class="suggestion-icon">📊</span>
-            <span>SQL revenue analytics query</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Implement a binary search tree with insert, delete, and traversal methods in JavaScript">
-            <span class="suggestion-icon">🌲</span>
-            <span>Binary search tree in JS</span>
-          </button>
-          <button class="suggestion-item" data-prompt="Create a Docker Compose setup for a Node.js app with PostgreSQL and Redis">
-            <span class="suggestion-icon">🐳</span>
-            <span>Docker Compose for Node + Postgres</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <p class="sidebar-label">Languages</p>
-        <div class="lang-tags">
-          <span class="lang-tag">Python</span>
-          <span class="lang-tag">TypeScript</span>
-          <span class="lang-tag">Rust</span>
-          <span class="lang-tag">Go</span>
-          <span class="lang-tag">SQL</span>
-          <span class="lang-tag">Bash</span>
-          <span class="lang-tag">C++</span>
-          <span class="lang-tag">Java</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Chat Area -->
-    <section class="chat-area" id="chatArea">
-
-      <!-- Empty State -->
-      <div class="empty-state" id="emptyState">
-        <div class="empty-glow"></div>
-        <div class="empty-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <polygon points="24,3 45,13.5 45,34.5 24,45 3,34.5 3,13.5" fill="none" stroke="url(#bigHex)" stroke-width="1.5"/>
-            <text x="24" y="30" text-anchor="middle" font-family="Syne" font-size="18" font-weight="800" fill="url(#bigText)">Ac</text>
-            <defs>
-              <linearGradient id="bigHex" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-              <linearGradient id="bigText" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38BDF8"/>
-                <stop offset="100%" stop-color="#818CF8"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <h2 class="empty-title">What are we building today?</h2>
-        <p class="empty-sub">Ask AceCoder anything — algorithms, architecture, debugging, or code review.</p>
-        <div class="empty-chips">
-          <span class="chip">Debug my code</span>
-          <span class="chip">Explain this function</span>
-          <span class="chip">Write unit tests</span>
-          <span class="chip">Refactor for performance</span>
-        </div>
-      </div>
-
-      <!-- Messages Container -->
-      <div class="messages" id="messages"></div>
-
-      <!-- Loading Indicator -->
-      <div class="loading-wrapper" id="loadingWrapper" style="display:none">
-        <div class="loading-bubble">
-          <div class="avatar ace-avatar">
-            <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
-              <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#lHex)" stroke-width="1.5"/>
-              <text x="14" y="18.5" text-anchor="middle" font-family="Syne" font-size="11" font-weight="800" fill="url(#lText)">Ac</text>
-              <defs>
-                <linearGradient id="lHex" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#38BDF8"/>
-                  <stop offset="100%" stop-color="#818CF8"/>
-                </linearGradient>
-                <linearGradient id="lText" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#38BDF8"/>
-                  <stop offset="100%" stop-color="#818CF8"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="typing-dots">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Input Bar -->
-  <footer class="input-bar">
-    <div class="input-inner">
-      <div class="input-box" id="inputBox">
-        <textarea
-          id="promptInput"
-          class="prompt-textarea"
-          placeholder="Ask Ace to write, debug, or explain code..."
-          rows="1"
-          maxlength="8000"
-        ></textarea>
-        <div class="input-actions">
-          <span class="char-count" id="charCount">0 / 8000</span>
-          <button class="send-btn" id="sendBtn" disabled>
-            <svg class="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <p class="input-disclaimer">AceCoder AI may produce incorrect code. Always review before deploying to production.</p>
+    <div class="input-disclaimer">
+      AI may make mistakes. Always review generated code.
     </div>
-  </footer>
 
-  <script src="script.js"></script>
+  </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>
